@@ -187,6 +187,15 @@
   window.addEventListener("scroll", revealOnScroll);
   revealOnScroll();
 </script>
+<script>
+  alert("JS is working");
+</script>
 
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js");
+  }
+</script>
 </body>
 </html>
