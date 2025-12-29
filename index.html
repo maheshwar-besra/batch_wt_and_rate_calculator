@@ -216,7 +216,7 @@ h3{
   </style>
 
 </head>
-<body>
+<body onload="pageLoaded()">
 
 <header>
   <img src="E4A_logo.png" alt="E4A Logo">
@@ -310,6 +310,15 @@ h3{
     navigator.serviceWorker.register("sw.js");
   }
 </script>
+<script>
+document.addEventListener("SwipeRefresh",function(){
+    location.reload();
+});
 
+function pageLoaded() {
+  android.activity.setRefreshing("refresh",false);
+
+}
+</script>
 </body>
 </html>
