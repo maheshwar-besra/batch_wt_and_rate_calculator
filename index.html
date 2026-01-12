@@ -1,288 +1,162 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>E4A Study Class</title>
+  <meta name="theme-color" content="#FF9933"> <title>E4A Study Class</title>
 
-  <!-- Hindi Font (FIX) -->
+  <link rel="manifest" href="manifest.json">
+
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
-  <!-- Google Font -->
-
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Poppins',sans-serif;
-    }
-
-    html, body{
-      height:100%;
-    }
-
-    body{
-      background:#f4f6f9;
-      color:#333;
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+    html, body { height:100%; }
+    
+    body {
+      background: #f4f6f9;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      /* Optimization */
+      will-change: opacity; 
     }
 
     /* MAIN CONTENT AREA */
-    main{
-      flex:1 0 auto;
-    }
+    main { flex: 1 0 auto; }
 
     /* HEADER – INDIAN TRICOLOR */
-    header{
-      background: linear-gradient(135deg,
-        #FF9933 0%,
-        #FFFFFF 50%,
-        #138808 100%
-      );
-      text-align:center;
-      padding:20px;
-      position:relative;
+    header {
+      background: linear-gradient(135deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     /* Ashoka Chakra Accent Line */
-    header::after{
-      content:"";
-      display:block;
-      width:100%;
-      height:3px;
-      background:#000080;
-      margin-top:12px;
+    header::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 3px;
+      background: #000080;
+      margin-top: 12px;
     }
 
-    header img{
-      width:120px;
-      margin-bottom:10px;
-    }
+    header img { width: 120px; margin-bottom: 10px; border-radius: 50%; background: white; padding: 5px; }
+    header h1 { font-size: 28px; font-weight: 700; color: #000; text-shadow: 1px 1px 2px rgba(255,255,255,0.5); }
 
-    header h1{
-      font-size:28px;
-      font-weight:700;
-      color:#000;
-    }
-/* HINDI TEXT FIX */
-    .hindi{
-      font-family:'Noto Sans Devanagari', sans-serif;
-      font-size:1.05rem;
-      line-height:1.8;
-    }
-h3{
-  margin-bottom:20px;
-}
-    p{
-      font-size:1rem;
-      line-height:1.7;
-      margin-bottom:10px;
-    }
-    nav ul{
-      list-style:none;
-      display:flex;
-      justify-content:center;
-      gap:20px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
+    /* HINDI TEXT FIX */
+    .hindi { font-family: 'Noto Sans Devanagari', sans-serif; font-size: 1.05rem; line-height: 1.8; }
+    
+    h3 { margin-bottom: 20px; color: #d35400; }
+    p { font-size: 1rem; line-height: 1.7; margin-bottom: 10px; }
 
-    nav ul li a{
-      color:#000;
-      text-decoration:none;
-      font-weight:600;
-      transition:.3s;
-    }
+    nav ul { list-style: none; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+    nav ul li a { color: #000; text-decoration: none; font-weight: 600; transition: .3s; padding: 5px 10px; border-radius: 20px; }
+    nav ul li a:hover { background: rgba(0,0,0,0.1); color: #000080; }
 
-    nav ul li a:hover{
-      color:#0d47a1;
-    }
+    section { padding: 50px 20px; max-width: 1200px; margin: auto; }
+    h2 { text-align: center; color: #000080; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #FF9933; display: inline-block; padding-bottom: 5px; position: relative; left: 50%; transform: translateX(-50%); }
 
-    section{
-      padding:70px 20px;
-      max-width:1200px;
-      margin:auto;
-    }
+    .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+    .box { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: center; border-top: 4px solid #138808; }
 
-    h2{
-      text-align:center;
-      color:#3498db;
-      margin-bottom:40px;
-    }
+    .student-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
+    .student-card { background: #fff; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08); cursor: pointer; transition: .3s; border-bottom: 3px solid #FF9933; }
+    .student-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+    .student-card img { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px; object-fit: cover; border: 3px solid #eee; }
+    .student-card h4 { color: #2c3e50; font-size: 1.1rem; }
+    .student-card p { font-size: 0.9rem; color: #7f8c8d; }
 
-    .about-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:30px;
-    }
-
-    .box{
-      background:#fff;
-      padding:30px;
-      border-radius:15px;
-      box-shadow:0 10px 20px rgba(0,0,0,.1);
-      text-align:center;
-    }
-
-    .student-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:25px;
-    }
-
-    .student-card{
-      background:#fff;
-      padding:25px;
-      border-radius:15px;
-      text-align:center;
-      box-shadow:0 8px 18px rgba(0,0,0,.1);
-      cursor:pointer;
-      transition:.3s;
-    }
-
-    .student-card:hover{
-      transform:translateY(-8px);
-    }
-
-    .student-card img{
-      width:90px;
-      height:90px;
-      border-radius:50%;
-      margin-bottom:10px;
-    }
-
-    .contact-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:30px;
-      text-align:center;
-    }
-
-    .contact-grid i{
-      font-size:30px;
-      color:#3498db;
-      margin-bottom:10px;
-    }
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; text-align: center; }
+    .contact-item { padding: 10px; }
+    .contact-item i { font-size: 30px; color: #FF9933; margin-bottom: 10px; }
+    .contact-item a { color: #333; }
 
     /* FOOTER */
-    footer{
-      background:#2c3e50;
-      color:#fff;
-      text-align:center;
-      padding:16px 10px;
-      font-size:14px;
+    footer { background: #2c3e50; color: #fff; text-align: center; padding: 20px 10px; font-size: 14px; margin-top: auto; }
+    footer span { display: block; font-size: 13px; opacity: .7; margin-top: 5px; }
+
+    /* ANIMATION */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .reveal.active { opacity: 1; transform: none; }
+
+    @media(max-width: 600px) {
+      header img { width: 90px; }
+      header h1 { font-size: 22px; }
+      nav ul { gap: 10px; }
+      .student-card img { width: 80px; height: 80px; }
     }
 
-    footer span{
-      display:block;
-      font-size:13px;
-      opacity:.85;
-      margin-top:4px;
-    }
-
-    .reveal{
-      opacity:0;
-      transform:translateY(40px);
-      transition:all .8s ease;
-    }
-
-    .reveal.active{
-      opacity:1;
-      transform:none;
-    }
-
-    @media(max-width:600px){
-      header img{width:90px;}
-      header h1{font-size:22px;letter-spacing:0px;}
-      nav ul{gap:12px;}
-    }
-
-        /* Disable selection, autofill, long press */
-    input, textarea, html{
+    /* WEBVIEW OPTIMIZATION */
+    input, textarea, html {
       user-select: none !important;
-      -webkit-user-select: none !important;
-      -ms-user-select: none !important;
-      -moz-user-select: none !important;
-      -webkit-touch-callout: none !important;
-      caret-color: transparent !important;
+      -webkit-tap-highlight-color: transparent;
     }
-    a,
-a:visited,
-a:hover,
-a:active{
-  text-decoration:none;
-}
-
+    a { text-decoration: none; }
   </style>
-
 </head>
 <body onload="pageLoaded()">
 
 <header>
   <img src="E4A_logo.png" alt="E4A Logo">
   <h1>E4A &nbsp;STUDY &nbsp;CLASS</h1>
-
   <nav>
     <ul>
-      <li><a href="#about">About Us</a></li>
-      <li><a href="#students">Student Corner</a></li>
-      <li><a href="#contact">Contact Us</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#students">Students</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 </header>
 
 <main>
 
-<section id="about" class="reveal">
+<section id="about">
   <h2>About Us</h2>
   <div class="about-grid">
     <div class="box reveal">
-      <h3>🌟 <strong class="hindi">&nbsp;हमारा दृष्टिकोण</strong> (Vision)</h3>
-      
-      <p class="hindi">हमारा दृष्टिकोण एक ऐसा शिक्षण वातावरण बनाना है जहाँ <strong>हर बच्चे को सीखने का समान अवसर मिले।</strong>
-हम मानते हैं कि <strong>शिक्षा कोई विशेषाधिकार नहीं, बल्कि हर बच्चे का अधिकार है,</strong> और किसी भी छात्र को आर्थिक या सामाजिक कारणों से शिक्षा से वंचित नहीं रहना चाहिए।</p>
+      <h3>🌟 <strong class="hindi">हमारा दृष्टिकोण</strong> (Vision)</h3>
+      <p class="hindi">हमारा दृष्टिकोण एक ऐसा शिक्षण वातावरण बनाना है जहाँ <strong>हर बच्चे को सीखने का समान अवसर मिले।</strong></p>
+      <p class="hindi">हम मानते हैं कि <strong>शिक्षा कोई विशेषाधिकार नहीं, बल्कि हर बच्चे का अधिकार है।</strong></p>
     </div>
     <div class="box reveal">
-      <h3> <strong class="hindi">🎯 &nbsp;हमारा लक्ष्य (Goal)</strong></h3>
-      
-      <p class="hindi">हमारा लक्ष्य सभी विद्यार्थियों को <strong>गुणवत्तापूर्ण, सस्ती और मूल्य-आधारित शिक्षा</strong> प्रदान करना है।
-हम बच्चों की <strong>मजबूत नींव, आत्मविश्वास, अनुशासन और जिज्ञासा </strong>विकसित करने पर ध्यान देते हैं, ताकि वे न केवल परीक्षाओं में अच्छा प्रदर्शन करें बल्कि एक जिम्मेदार और जागरूक नागरिक भी बनें।
-<br>
-<strong>E4A Study Class में हम पूरी निष्ठा से “Education For All – सबके लिए शिक्षा”</strong> के सिद्धांत पर कार्य करते हैं और हर विद्यार्थी को आगे बढ़ने का अवसर देते हैं।</p>
+      <h3>🎯 <strong class="hindi">हमारा लक्ष्य</strong> (Goal)</h3>
+      <p class="hindi">हमारा लक्ष्य सभी विद्यार्थियों को <strong>गुणवत्तापूर्ण और मूल्य-आधारित शिक्षा</strong> प्रदान करना है।</p>
+      <p class="hindi"><strong>E4A Study Class</strong> में हम पूरी निष्ठा से <strong>“Education For All”</strong> के सिद्धांत पर कार्य करते हैं।</p>
     </div>
   </div>
 </section>
 
-<section id="students" class="reveal">
+<section id="students">
   <h2>Student Corner</h2>
   <div class="student-grid" id="studentGrid"></div>
 </section>
 
-<section id="contact" class="reveal">
+<section id="contact">
   <h2>Contact Us</h2>
-  <div class="box contact-grid">
-    <div class="reveal"><i class="fa fa-phone"></i><p>8210660831</p></div>
-    <div class="reveal"><i class="fab fa-whatsapp"></i><p><a href="https://whatsapp.com/channel/0029Vb7H8WC5PO17EFx61S38">E4A STUDY CLASS</a></p></div>
-    <div class="reveal"><i class="fa fa-envelope"></i><p>besra.m9@gmail.com</p></div>
-    <div class="reveal"><i class="fa fa-map-marker-alt"></i><p>Adityapur, Jamshedpur</p></div>
+  <div class="box contact-grid reveal">
+    <div class="contact-item"><i class="fa fa-phone"></i><p>8210660831</p></div>
+    <div class="contact-item"><i class="fab fa-whatsapp"></i><p><a href="https://whatsapp.com/channel/0029Vb7H8WC5PO17EFx61S38">Join WhatsApp</a></p></div>
+    <div class="contact-item"><i class="fa fa-envelope"></i><p>besra.m9@gmail.com</p></div>
+    <div class="contact-item"><i class="fa fa-map-marker-alt"></i><p>Adityapur, Jamshedpur</p></div>
   </div>
 </section>
 
 </main>
 
 <footer>
-  © 2025 <strong>E4A Study Class | Education For All</strong>
+  © 2025 <strong>E4A Study Class</strong><br>Education For All
   <span>Designed by Maheshwar Besra</span>
 </footer>
 
 <script>
+  // STUDENT DATA
   const students = [
     { name: "Shankar Soy", class: "Class 1", img: "Students/sk.png" },
     { name: "Kamal Soy", class: "Class 1", img: "Students/ks.png" },
@@ -293,40 +167,55 @@ a:active{
   ];
 
   const grid = document.getElementById("studentGrid");
+  
+  // RENDER STUDENTS
   students.forEach(s => {
     const card = document.createElement("div");
     card.className = "student-card reveal";
-    card.innerHTML = `<img src="${s.img}"><h4>${s.name}</h4><p>${s.class}</p>`;
+    card.innerHTML = `
+      <img src="${s.img}" alt="${s.name}" onerror="this.src='E4A_logo.png'">
+      <h4>${s.name}</h4>
+      <p>${s.class}</p>
+    `;
     grid.appendChild(card);
   });
 
+  // SCROLL ANIMATION
   const reveals = document.querySelectorAll(".reveal");
   function revealOnScroll(){
     reveals.forEach(el => {
-      if(el.getBoundingClientRect().top < window.innerHeight - 100){
+      const windowHeight = window.innerHeight;
+      const elementTop = el.getBoundingClientRect().top;
+      const elementVisible = 50;
+      if(elementTop < windowHeight - elementVisible){
         el.classList.add("active");
       }
     });
   }
-
   window.addEventListener("scroll", revealOnScroll);
-  revealOnScroll();
-</script>
+  revealOnScroll(); // Trigger once on load
 
-<script>
+  // SERVICE WORKER REGISTRATION (Auto-Reload on update)
   if("serviceWorker" in navigator){
-    navigator.serviceWorker.register("sw.js");
+    navigator.serviceWorker.register("sw.js").then(registration => {
+      console.log("Service Worker Registered");
+    }).catch(err => {
+      console.log("SW Registration Failed");
+    });
+  }
+
+  // ANDROID WEBVIEW INTERFACE
+  document.addEventListener("SwipeRefresh", function(){
+      location.reload();
+  });
+
+  function pageLoaded() {
+    // Check if the android interface exists to avoid errors in normal browsers
+    if (typeof android !== 'undefined' && android.activity) {
+      android.activity.setRefreshing("refresh", false);
+    }
   }
 </script>
-<script>
-document.addEventListener("SwipeRefresh",function(){
-    location.reload();
-});
 
-function pageLoaded() {
-  android.activity.setRefreshing("refresh",false);
-
-}
-</script>
 </body>
 </html>
