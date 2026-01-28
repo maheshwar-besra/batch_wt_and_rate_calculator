@@ -1,497 +1,451 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#FF9933">
-  <title>E4A Study Class</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hindustan Rubber Report</title>
+    <style>
+        :root { 
+            --primary: #1a73e8; 
+            --secondary: #34a853; 
+            --bg: #f0f4f8; 
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #999;
+            --input-bg: #ffffff;
+            --danger: #d93025;
+            --header-bg: #e8f0fe;
+        }
 
-  <link rel="manifest" href="manifest.json">
+        body.dark-mode {
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --border-color: #555;
+            --input-bg: #2c2c2c;
+            --header-bg: #3c4043;
+            --primary: #4285f4;
+        }
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Sans+Devanagari:wght@400;500;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  
-  <style>
-    /* CSS VARIABLES */
-    :root {
-      --primary: #000080; /* Navy Blue */
-      --saffron: #FF9933;
-      --green: #138808;
-      --bg: #f4f6f9;
-      --text: #333;
-      --lightblue: #add8e6;
-    }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--bg); color: var(--text-color); padding: 12px; margin: 0; padding-bottom: 80px; }
+        
+        .card { 
+            background: var(--card-bg); 
+            padding: 15px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            margin-bottom: 15px;
+            border-top: 4px solid var(--primary);
+        }
 
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
-    html, body { height:100%; }
-    
-    body {
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      will-change: opacity; 
-    }
+        h3 { margin-top: 0; color: var(--primary); font-size: 18px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
 
-    /* WEBVIEW & LINK FIXES */
-    input, textarea, html, a, button, div {
-      -webkit-tap-highlight-color: transparent !important; 
-      outline: none !important; 
-    }
-    
-    a:focus, a:active, a:visited, a:hover {
-      text-decoration: none;
-      color: inherit;
-      background: none !important;
-    }
+        /* --- INPUT GRID --- */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            margin-bottom: 12px;
+        }
+        
+        label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 4px; opacity: 0.8; text-transform: uppercase; }
+        
+        input { 
+            width: 100%; padding: 10px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 4px; 
+            background: var(--input-bg); 
+            color: var(--text-color);
+            box-sizing: border-box; 
+            font-size: 15px;
+            font-weight: 500;
+        }
+        input:focus { border-color: var(--primary); outline: none; border-width: 2px; padding: 9px; }
 
-    /* MAIN CONTENT AREA */
-    main { flex: 1 0 auto; }
+        /* BUTTONS */
+        .btn-row { display: flex; gap: 10px; margin-top: 15px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: white; font-size: 14px; }
+        .btn-add { background: var(--primary); }
+        .btn-clear { background: var(--danger); }
+        .btn-print { background: var(--secondary); margin-bottom: 10px; width: 100%; }
 
-    /* HEADER */
-    header {
-      background: linear-gradient(135deg, var(--saffron) 0%, #FFFFFF 50%, var(--green) 100%);
-      text-align: center;
-      padding: 20px;
-      position: relative;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      z-index: 10;
-    }
+        /* --- REPORT LAYOUT (Screen) --- */
+        .print-only-block { display: none; }
+        .lbl-print { display: none; } 
+        .print-total-row { display: none; }
+        
+        .table-wrap { overflow-x: auto; border: 1px solid #000; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 100%; }
+        
+        thead { background: var(--header-bg); }
+        
+        /* SCREEN Borders */
+        th, td { 
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+            padding: 8px 5px;
+            vertical-align: middle;
+            text-align: center; 
+        }
+        th:last-child, td:last-child { border-right: none; }
 
-    header::after {
-      content: "";
-      display: block;
-      width: 100%;
-      height: 3px;
-      background: var(--primary);
-      margin-top: 12px;
-    }
+        th { font-weight: bold; color: #000; white-space: nowrap; }
+        .sub-head { display: block; font-size: 11px; font-weight: normal; margin-top: 2px; }
 
-    header img { width: 120px; margin-bottom: 10px; border-radius: 50%; background: white; padding: 5px; }
-    header h1 { font-size: 28px; font-weight: 700; color: #000; text-shadow: 1px 1px 2px rgba(255,255,255,0.5); }
+        .col-right { text-align: right; }
+        .val-row { margin-bottom: 4px; }
+        .total-row td { background: #eee; font-weight: bold; color: #000; border-top: 2px solid #000; }
+        .grand-total { font-size: 16px; }
 
-    /* HINDI TYPOGRAPHY */
-    .hindi { 
-      font-family: 'Noto Sans Devanagari', sans-serif; 
-      font-size: 1.15rem; 
-      font-weight: 500;   
-      line-height: 2.0;   
-      color: #444;        
-      text-align: justify; 
-    }
-    .hindi strong { font-weight: 700; color: #000; font-size: 1.18rem; }
-    
-    h3 { margin-bottom: 20px; color: #d35400; }
-    p { font-size: 1rem; line-height: 1.5; margin-bottom: 10px; }
+        .sl-cell { cursor: pointer; text-decoration: underline; color: var(--primary); }
+        .sl-cell:hover { background: #ffeb3b; }
 
-    /* NAVIGATION */
-    nav ul { list-style: none; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
-    nav ul li a { color: #000; text-decoration: none; font-weight: 600; transition: .3s; padding: 5px 10px; border-radius: 20px; }
-    nav ul li a:hover { background: rgba(0,0,0,0.05); color: var(--primary); }
+        /* --- PRINT STYLES (PDF) --- */
+        @media print {
+            body { background: white; padding: 0; margin: 0; color: #000000 !important; }
+            #inputCard { display: none !important; } 
+            .btn-print { display: none !important; }
+            .card { box-shadow: none; border: none; padding: 0; margin: 0; }
+            
+            /* SHOW/HIDE ELEMENTS */
+            .print-only-block { display: block; }
+            .lbl-print { display: inline; }
+            .lbl-screen { display: none; }
+            .print-total-row { display: block; }
+            
+            /* SHOW NOTE BUT HIDE DELETE HINT */
+            #screenNote { display: block !important; border-top: none !important; margin-top: 5px; }
+            #deleteHint { display: none !important; }
 
-    section { padding: 50px 20px; max-width: 1200px; margin: auto; }
-    h2 { 
-      text-align: center; 
-      color: var(--primary); 
-      margin-bottom: 40px; 
-      text-transform: uppercase; 
-      letter-spacing: 1px; 
-      border-bottom: 2px solid var(--saffron); 
-      display: inline-block; 
-      padding-bottom: 5px; 
-      position: relative; 
-      left: 50%; 
-      transform: translateX(-50%); 
-    }
+            /* --- BORDER FIXES: UNIFORM THICKNESS --- */
+            .table-wrap { border: none !important; }
+            
+            table { 
+                border-collapse: collapse; 
+                width: 100%; 
+                border: 2px solid #000000 !important; /* Outer Border */
+            }
+            th, td { 
+                border: 2px solid #000000 !important; /* Inner Borders */
+            }
 
-    /* =========================================
-       REPUBLIC DAY HERO STYLES
-    ========================================= */
-    .republic-hero-premium {
-      width: 100%;
-      min-height: 75vh; 
-      background: linear-gradient(180deg, #FF9933 15%, #ffffff 50%, #138808 85%);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 30px 20px;
-      position: relative;
-      overflow: hidden;
-    }
+            /* --- TEXT SIZE & COLOR FIXES --- */
+            * { color: #000000 !important; }
 
-    /* ----- CSS FLAG CONSTRUCTION (STRAIGHTENED) ----- */
-    .flag-unit {
-        position: relative;
-        width: 180px;
-        height: 220px;
-        margin-bottom: 30px;
-        /* Rotation removed here so it is straight */
-        z-index: 2; /* Above flowers */
-    }
-    
-    .pole {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 8px;
-        height: 100%;
-        background: linear-gradient(to right, #444, #777);
-        border-radius: 4px;
-    }
+            /* Uniform Font Size for Headers and Data */
+            table, th, td, .val-row, .print-total-row, .grand-total { 
+                font-size: 18px !important; 
+            }
+            
+            /* Header Spacing */
+            th { padding: 10px 5px !important; }
+            
+            /* Sub-header (Base | Top) styling */
+            .sub-head { 
+                font-size: 18px !important; 
+                font-weight: bold !important; 
+                display: block;
+                margin-top: 4px;
+            }
 
-    .flag-cloth {
-        position: absolute;
-        top: 10px;
-        left: 8px;
-        width: 160px;
-        height: 100px;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 2px 4px 10px rgba(0,0,0,0.2);
-        border-radius: 0 10px 10px 0;
-    }
+            /* Report Header */
+            .report-company { text-align: center; font-size: 26px; font-weight: bold; text-decoration: underline; margin-bottom: 25px; text-transform: uppercase; color: #000; }
+            .report-header-grid { display: grid; grid-template-columns: 1fr 1fr; font-size: 16px; font-weight: bold; margin-bottom: 8px; color: #000; }
+            .header-right { text-align: right; }
 
-    .strip { flex: 1; width: 100%; }
-    .saffron-strip { background: var(--saffron); border-radius: 0 10px 0 0; }
-    .white-strip { 
-        background: #fff; 
-        position: relative; 
-        display: flex; 
-        justify-content: center; 
-        align-items: center; 
-    }
-    .green-strip { background: var(--green); border-radius: 0 0 10px 0;}
+            /* Bold Values */
+            .val-row, .total-line { font-weight: bold; }
+            
+            /* Total Wt Line - Uniform Size */
+            .print-total-row {
+                border-top: 2px solid #000;
+                margin-top: 6px;
+                padding-top: 4px;
+                font-weight: bold !important; 
+            }
+            
+            /* Remove Link Styling & MAKE BOLD for Sl. No */
+            .sl-cell { 
+                text-decoration: none; 
+                color: #000; 
+                cursor: default; 
+                font-weight: bold !important; /* FIXED: Now Bold */
+            }
+        }
 
-    /* Tiny Chakra inside the flag */
-    .mini-chakra-svg {
-        width: 28px;
-        height: 28px;
-        animation: spin-slow 12s linear infinite;
-    }
-
-    /* ----- PREMIUM TEXT STYLING ----- */
-    .republic-content-premium {
-      max-width: 900px;
-      z-index: 2; /* Above flowers */
-    }
-
-    .republic-title-premium {
-      font-family: 'Playfair Display', serif; 
-      color: var(--primary);
-      font-size: 3.5rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-      text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8), -1px -1px 2px rgba(0,0,0,0.1);
-      line-height: 1.1;
-    }
-
-    .republic-hindi-premium {
-      color: #222;
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      font-family: 'Noto Sans Devanagari', sans-serif;
-      text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.9);
-    }
-
-    .republic-wish-premium { 
-      color: var(--primary);
-      font-size: 1.2rem; 
-      line-height: 1.6; 
-      font-weight: 500;
-      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
-    }
-
-    /* ----- FALLING FLOWERS ANIMATION ----- */
-    .falling-flowers {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1; /* Behind flag and text */
-      overflow: hidden;
-    }
-
-    .falling-flowers i {
-      position: absolute;
-      background: var(--saffron);
-      border-radius: 50%; /* Petal shape */
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      top: -50px;
-      animation: falling linear infinite;
-    }
-
-    @keyframes falling {
-      0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 1; }
-      100% { transform: translate3d(100px, 100vh, 0) rotate(360deg); opacity: 0; }
-    }
-    
-    @keyframes spin-slow { 100% { transform: rotate(360deg); } }
-
-    /* Variety for flowers (positions, sizes, colors, speeds) */
-    .falling-flowers i:nth-child(1) { left: 5%; width: 15px; height: 15px; animation-duration: 7s; animation-delay: 0s; background: var(--saffron); }
-    .falling-flowers i:nth-child(2) { left: 12%; width: 10px; height: 10px; animation-duration: 10s; animation-delay: 2s; background: var(--white); }
-    .falling-flowers i:nth-child(3) { left: 18%; width: 18px; height: 18px; animation-duration: 8s; animation-delay: 1s; background: var(--green); }
-    .falling-flowers i:nth-child(4) { left: 25%; width: 12px; height: 12px; animation-duration: 12s; animation-delay: 4s; background: var(--lightblue); }
-    .falling-flowers i:nth-child(5) { left: 32%; width: 16px; height: 16px; animation-duration: 9s; animation-delay: 3s; background: var(--saffron); }
-    .falling-flowers i:nth-child(6) { left: 40%; width: 10px; height: 10px; animation-duration: 11s; animation-delay: 0s; background: #fff; }
-    .falling-flowers i:nth-child(7) { left: 48%; width: 14px; height: 14px; animation-duration: 7s; animation-delay: 2s; background: var(--green); }
-    .falling-flowers i:nth-child(8) { left: 55%; width: 12px; height: 12px; animation-duration: 13s; animation-delay: 1s; background: var(--lightblue); }
-    .falling-flowers i:nth-child(9) { left: 62%; width: 18px; height: 18px; animation-duration: 8s; animation-delay: 3s; background: var(--saffron); }
-    .falling-flowers i:nth-child(10){ left: 70%; width: 10px; height: 10px; animation-duration: 10s; animation-delay: 0s; background: #fff; }
-    .falling-flowers i:nth-child(11){ left: 78%; width: 15px; height: 15px; animation-duration: 9s; animation-delay: 2s; background: var(--green); }
-    .falling-flowers i:nth-child(12){ left: 85%; width: 12px; height: 12px; animation-duration: 11s; animation-delay: 1s; background: var(--lightblue); }
-    .falling-flowers i:nth-child(13){ left: 92%; width: 16px; height: 16px; animation-duration: 7s; animation-delay: 4s; background: var(--saffron); }
-    .falling-flowers i:nth-child(14){ left: 3%; width: 11px; height: 11px; animation-duration: 14s; animation-delay: 5s; background: #fff; }
-    .falling-flowers i:nth-child(15){ left: 97%; width: 13px; height: 13px; animation-duration: 12s; animation-delay: 3s; background: var(--green); }
-    .falling-flowers i:nth-child(16){ left: 50%; width: 15px; height: 15px; animation-duration: 15s; animation-delay: 6s; background: var(--primary); }
-
-
-    /* GRIDS & CARDS */
-    .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-    .box { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: center; border-top: 4px solid var(--green); }
-
-    .student-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
-    .student-card { background: #fff; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08); cursor: pointer; transition: .3s; border-bottom: 3px solid var(--saffron); }
-    .student-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
-    .student-card img { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 10px; object-fit: cover; border: 3px solid #eee; }
-    .student-card h4 { color: #2c3e50; font-size: 1.1rem; }
-    .student-card p { font-size: 0.9rem; color: #7f8c8d; }
-
-    /* CONTACT SECTION UPDATED */
-    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; text-align: center; }
-    
-    .contact-item { 
-      padding: 15px; 
-      border-radius: 10px;
-    }
-
-    .contact-item a {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-    
-    .contact-item i { 
-      font-size: 34px; 
-      color: var(--primary); 
-      margin-bottom: 12px; 
-      display: block;
-      transition: transform 0.2s;
-    }
-    
-    .contact-item:active i {
-      transform: scale(0.9);
-    }
-    
-    .contact-item p { 
-      color: #000; 
-      font-weight: 600; 
-      font-size: 1rem; 
-      margin: 0;
-      line-height: 1.4;
-    }
-
-    footer { background: #2c3e50; color: #fff; text-align: center; padding: 20px 10px; font-size: 14px; margin-top: auto; }
-    footer span { display: block; font-size: 13px; opacity: .7; margin-top: 5px; }
-
-    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
-    .reveal.active { opacity: 1; transform: none; }
-
-    @media(max-width: 600px) {
-      header img { width: 90px; }
-      header h1 { font-size: 22px; }
-      nav ul { gap: 10px; }
-      /* Mobile adjustments for premium section */
-      .republic-title-premium { font-size: 2.2rem; }
-      .republic-hindi-premium { font-size: 1.4rem; }
-      .republic-hero-premium { min-height: 60vh; }
-      /* Rotation removed here too */
-      .flag-unit { transform: scale(0.8); margin-bottom: 10px; }
-    }
-  </style>
+    </style>
 </head>
-<body onload="pageLoaded()">
+<body>
 
-<header>
-  <img src="E4A_logo.png" alt="E4A Logo">
-  <h1>E4A  STUDY  CLASS</h1>
-  <nav>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#students">Students</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-</header>
-
-<main>
-
-<section class="republic-hero-premium reveal">
-
-    <div class="falling-flowers">
-      <i></i><i></i><i></i><i></i>
-      <i></i><i></i><i></i><i></i>
-      <i></i><i></i><i></i><i></i>
-      <i></i><i></i><i></i><i></i>
-    </div>
-  
-    <div class="flag-unit">
-        <div class="pole"></div>
-        <div class="flag-cloth">
-            <div class="strip saffron-strip"></div>
-            <div class="strip white-strip">
-                <svg class="mini-chakra-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="10" stroke="#000080" stroke-width="2" fill="none"/>
-                    <circle cx="12" cy="12" r="2" fill="#000080"/>
-                    <g stroke="#000080" stroke-width="1">
-                      <line x1="12" y1="2" x2="12" y2="22" /><line x1="2" y1="12" x2="22" y2="12" />
-                      <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" /><line x1="19.07" y1="4.93" x2="4.93" y2="19.07" />
-                      <line x1="7" y1="3.34" x2="17" y2="20.66" /><line x1="17" y1="3.34" x2="7" y2="20.66" />
-                      <line x1="3.34" y1="7" x2="20.66" y2="17" /><line x1="3.34" y1="17" x2="20.66" y2="7" />
-                    </g>
-                  </svg>
+<div class="container">
+    
+    <div class="card" id="inputCard">
+        <h3>Batch Cost Entry</h3>
+        
+        <div class="form-grid">
+            <div>
+                <label>Roll Name</label>
+                <input type="text" id="rollName" placeholder="e.g. NBR Jumbo" onkeyup="updateHeaderInfo()">
             </div>
-            <div class="strip green-strip"></div>
+            <div>
+                <label>G.P. No.</label>
+                <input type="text" id="gpNo" placeholder="101" onkeyup="updateHeaderInfo()">
+            </div>
+
+            <div>
+                <label>Supply Date</label>
+                <input type="date" id="supplyDate" onchange="updateHeaderInfo()">
+            </div>
+            <div>
+                <label>Total Qty</label>
+                <input type="number" id="totalQty" placeholder="e.g. 2" oninput="checkLimit()">
+            </div>
+
+            <div>
+                <label>Sl. No.</label>
+                <input type="number" id="slNo" value="1">
+            </div>
+            <div>
+                <label>Roll ID.</label>
+                <input type="text" id="rollId" placeholder="ID-001">
+            </div>
+
+            <div>
+                <label>Base Weight (Kg)</label>
+                <input type="number" step="0.01" id="baseWt" placeholder="0.00">
+            </div>
+            <div>
+                <label>Base Rate ()</label>
+                <input type="number" step="0.01" id="baseRate" placeholder="0.00" oninput="updateRateNote()">
+            </div>
+
+            <div>
+                <label>Top Weight (Kg)</label>
+                <input type="number" step="0.01" id="topWt" placeholder="0.00">
+            </div>
+            <div>
+                <label>Top Rate ()</label>
+                <input type="number" step="0.01" id="topRate" placeholder="0.00" oninput="updateRateNote()">
+            </div>
+        </div>
+
+        <div class="btn-row">
+            <button class="btn-add" onclick="addEntry()">ADD ENTRY</button>
+            <button class="btn-clear" onclick="clearAllData()">CLEAR ALL</button>
         </div>
     </div>
 
-  <div class="republic-content-premium">
-    <h1 class="republic-title-premium">Happy Republic Day</h1>
-    <h2 class="republic-hindi-premium">गणतंत्र दिवस की हार्दिक शुभकामनाएँ</h2>
-    <p class="republic-wish-premium">
-      Celebrating unity, heritage, and the power of education. <br>
-      <strong>Jai Hind!</strong>
-    </p>
-  </div>
-</section>
-<section id="about">
-  <h2>About Us</h2>
-  <div class="about-grid">
-    <div class="box reveal">
-      <h3>🌟 <span class="hindi" style="font-weight:700;">हमारा दृष्टिकोण</span> (Vision)</h3>
-      <p class="hindi">हमारा दृष्टिकोण एक ऐसा शिक्षण वातावरण बनाना है जहाँ <strong>हर बच्चे को सीखने का समान अवसर मिले।</strong></p>
-      <p class="hindi">हम मानते हैं कि <strong>शिक्षा कोई विशेषाधिकार नहीं, बल्कि हर बच्चे का अधिकार है,</strong> और किसी भी छात्र को आर्थिक या सामाजिक कारणों से शिक्षा से वंचित नहीं रहना चाहिए।</p>
+    <div class="card" id="reportCard">
+        <button class="btn-print" onclick="window.print()"> Print Report Only</button>
+        
+        <div class="print-only-block">
+            <div class="report-company">Hindustan Rubber Products</div>
+            
+            <div class="report-header-grid">
+                <div>Roll Name: <span id="repRollName"></span></div>
+                <div class="header-right">GP No: <span id="repGp"></span></div>
+            </div>
+            
+            <div class="report-header-grid">
+                <div>Supply Date: <span id="repDate"></span></div>
+                <div class="header-right">Total Qty: <span id="repQty"></span></div>
+            </div>
+        </div>
+        
+        <div class="table-wrap">
+            <table id="reportTable">
+                <thead>
+                    <tr>
+                        <th style="width:60px">Sl. No.</th>
+                        <th>Roll ID</th>
+                        <th>Material Wt<br><span class="sub-head">Base | Top</span></th>
+                        <th>Amount ()<br><span class="sub-head">Base | Top</span></th>
+                        <th style="width:130px">Total<br><span class="sub-head">Amount ()</span></th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="4" class="col-right">Grand Total:</td>
+                        <td class="col-right grand-total"><span id="grandTotal">0.00</span></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <p style="font-size:11px; color:#555; margin-top:10px; border-top:1px dashed #ccc; padding-top:5px;" id="screenNote">
+            <b>* Note:</b> <span id="rateNote">Enter rates above.</span> 
+            <span id="deleteHint" style="color:red">(Click Sl. No. to Delete)</span>
+        </p>
     </div>
-    <div class="box reveal">
-      <h3>🎯 <span class="hindi" style="font-weight:700;">हमारा लक्ष्य</span> (Goal)</h3>
-      <p class="hindi">हमारा लक्ष्य सभी विद्यार्थियों को <strong>गुणवत्तापूर्ण और मूल्य-आधारित शिक्षा</strong> प्रदान करना है।
-      हम बच्चों की <strong>मजबूत नींव, आत्मविश्वास, अनुशासन और जिज्ञासा </strong>विकसित करने पर ध्यान देते हैं, ताकि वे न केवल परीक्षाओं में अच्छा प्रदर्शन करें बल्कि एक जिम्मेदार और जागरूक नागरिक भी बनें।</p>
-      <p class="hindi"><strong>E4A Study Class</strong> में हम पूरी निष्ठा से <strong>“Education For All– सबके लिए शिक्षा”</strong> के सिद्धांत पर कार्य करते हैं।</p>
-    </div>
-  </div>
-</section>
-
-<section id="students">
-  <h2>Student Corner</h2>
-  <div class="student-grid" id="studentGrid"></div>
-</section>
-
-<section id="contact">
-  <h2>Contact Us</h2>
-  <div class="box contact-grid reveal">
-    
-    <div class="contact-item">
-      <a href="tel:8210660831">
-        <i class='bx bx-phone'></i> 
-        <p>8210660831</p>
-      </a>
-    </div>
-
-    <div class="contact-item">
-      <a href="https://whatsapp.com/channel/0029Vb7H8WC5PO17EFx61S38">
-        <i class='bx bxl-whatsapp'></i> 
-        <p>Join WhatsApp Channel</p>
-      </a>
-    </div>
-
-    <div class="contact-item">
-      <a href="mailto:besra.m9@gmail.com">
-        <i class='bx bx-envelope'></i> 
-        <p>besra.m9@gmail.com</p>
-      </a>
-    </div>
-
-    <div class="contact-item">
-      <a href="https://www.google.com/maps/search/?api=1&query=Adityapur+Jamshedpur" target="_blank">
-        <i class='bx bx-map'></i> 
-        <p>Adityapur, Jamshedpur</p>
-      </a>
-    </div>
-
-  </div>
-</section>
-
-</main>
-
-<footer>
-  © 2025 <strong>E4A Study Class</strong><br>Education For All
-  <span>Designed by Maheshwar Besra</span>
-</footer>
+</div>
 
 <script>
-  // STUDENT DATA
-  const students = [
-    { name: "Shankar Soy", class: "Class 1", img: "Students/sk.png" },
-    { name: "Kamal Soy", class: "Class 1", img: "Students/ks.png" },
-    { name: "Kunal Horo", class: "Class Pre-Nursery", img: "Students/kh.png" },
-    { name: "Krishna Hansda", class: "Class Nursery", img: "Students/krh.png" },
-    { name: "Kajal Kumari", class: "Class Pre-Nursery", img: "Students/kk.png" },
-    { name: "Naina Kumari", class: "Class Pre-Nursery", img: "Students/nk.png" }
-  ];
+    let entries = [];
 
-  const grid = document.getElementById("studentGrid");
-  
-  // RENDER STUDENTS
-  students.forEach(s => {
-    const card = document.createElement("div");
-    card.className = "student-card reveal";
-    card.innerHTML = `
-      <img src="${s.img}" alt="${s.name}" onerror="this.src='E4A_logo.png'">
-      <h4>${s.name}</h4>
-      <p>${s.class}</p>
-    `;
-    grid.appendChild(card);
-  });
+    window.onload = function() {
+        if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('supplyDate').value = today;
+        updateRateNote();
+        updateHeaderInfo();
+    };
 
-  // SCROLL ANIMATION
-  const reveals = document.querySelectorAll(".reveal");
-  function revealOnScroll(){
-    reveals.forEach(el => {
-      const windowHeight = window.innerHeight;
-      const elementTop = el.getBoundingClientRect().top;
-      const elementVisible = 50;
-      if(elementTop < windowHeight - elementVisible){
-        el.classList.add("active");
-      }
-    });
-  }
-  window.addEventListener("scroll", revealOnScroll);
-  revealOnScroll(); 
+    function addEntry() {
+        const sl = parseInt(document.getElementById('slNo').value) || 0;
+        const rId = document.getElementById('rollId').value.trim() || "-";
+        const bWt = parseFloat(document.getElementById('baseWt').value) || 0;
+        const bRate = parseFloat(document.getElementById('baseRate').value) || 0;
+        const tWt = parseFloat(document.getElementById('topWt').value) || 0;
+        const tRate = parseFloat(document.getElementById('topRate').value) || 0;
+        const maxQty = parseInt(document.getElementById('totalQty').value) || 0;
 
-  // SERVICE WORKER REGISTRATION 
-  if("serviceWorker" in navigator){
-    navigator.serviceWorker.register("sw.js");
-  }
+        if (sl === 0) { alert("Sl No cannot be 0"); return; }
+        if (bWt === 0 && tWt === 0) { alert("Please enter weight"); return; }
+        
+        const isUpdate = entries.some(e => e.sl === sl);
+        if (!isUpdate && maxQty > 0 && entries.length >= maxQty) {
+            alert(` Limit Reached! Total Qty is ${maxQty}.`);
+            return;
+        }
 
-  // ANDROID WEBVIEW INTERFACE
-  document.addEventListener("SwipeRefresh", function(){
-      location.reload();
-  });
+        const existingIndex = entries.findIndex(e => e.sl === sl);
+        if (existingIndex > -1) {
+            if(!confirm(`Sl No ${sl} already exists. Overwrite?`)) return;
+            entries.splice(existingIndex, 1);
+        }
 
-  function pageLoaded() {
-    if (typeof android !== 'undefined' && android.activity) {
-      android.activity.setRefreshing("refresh", false);
+        const bAmt = bWt * bRate;
+        const tAmt = tWt * tRate;
+        const totalWt = parseFloat((bWt + tWt).toFixed(2));
+
+        entries.push({
+            sl: sl,
+            id: rId,
+            bWt: bWt, tWt: tWt, totalWt: totalWt,
+            bAmt: bAmt, tAmt: tAmt,
+            total: bAmt + tAmt
+        });
+
+        entries.sort((a, b) => a.sl - b.sl);
+        renderTable();
+        clearEntryInputs(); 
+        setNextSlNo();
+        updateHeaderInfo();
     }
-  }
+
+    function renderTable() {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = "";
+        let grandTot = 0;
+
+        entries.forEach(e => {
+            grandTot += e.total;
+            const tr = document.createElement('tr');
+            
+            tr.innerHTML = `
+                <td class="sl-cell" onclick="deleteEntry(${e.sl})">${e.sl}</td>
+                <td style="font-weight:bold">${e.id}</td>
+                <td>
+                    <div class="val-row">
+                        <span class="lbl-screen">B</span><span class="lbl-print">Base</span> - ${e.bWt}
+                    </div>
+                    <div class="val-row">
+                        <span class="lbl-screen">T</span><span class="lbl-print">Top</span> - ${e.tWt}
+                    </div>
+                    <div class="print-total-row">Total - ${e.totalWt}</div>
+                </td>
+                <td>
+                    <div class="val-row">
+                        <span class="lbl-screen">B</span><span class="lbl-print">Base</span> - ${Math.round(e.bAmt)}
+                    </div>
+                    <div class="val-row">
+                        <span class="lbl-screen">T</span><span class="lbl-print">Top</span> - ${Math.round(e.tAmt)}
+                    </div>
+                </td>
+                <td class="col-right" style="font-weight:bold">
+                    ${Math.round(e.total)}
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        document.getElementById('grandTotal').innerText = grandTot.toLocaleString('en-IN');
+    }
+
+    function deleteEntry(slNo) {
+        if(confirm(`Delete Entry Sl. No: ${slNo}?`)) {
+            entries = entries.filter(e => e.sl !== slNo);
+            renderTable();
+            clearEntryInputs();
+            setNextSlNo(); 
+        }
+    }
+
+    function setNextSlNo() {
+        const maxQty = parseInt(document.getElementById('totalQty').value) || 100;
+        let nextSl = 1;
+        for (let i = 1; i <= maxQty + 1; i++) {
+            if (!entries.some(e => e.sl === i)) {
+                nextSl = i;
+                break;
+            }
+        }
+        document.getElementById('slNo').value = nextSl;
+    }
+
+    function clearEntryInputs() {
+        document.getElementById('baseWt').value = "";
+        document.getElementById('topWt').value = "";
+        document.getElementById('rollId').value = "";
+    }
+
+    function clearAllData() {
+        if(confirm("Clear ALL data?")) {
+            entries = [];
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(i => {
+                if(i.type !== 'date') i.value = ""; 
+            });
+            document.getElementById('slNo').value = "1";
+            renderTable();
+            updateHeaderInfo();
+        }
+    }
+
+    function checkLimit() {
+        updateHeaderInfo();
+        setNextSlNo();
+    }
+
+    function updateHeaderInfo() {
+        const rollName = document.getElementById('rollName').value;
+        const gp = document.getElementById('gpNo').value;
+        const qty = document.getElementById('totalQty').value;
+        
+        const rawDate = document.getElementById('supplyDate').value;
+        const dateObj = new Date(rawDate);
+        const niceDate = !isNaN(dateObj) ? dateObj.toLocaleDateString('en-GB') : "";
+
+        document.getElementById('repRollName').innerText = rollName || "-";
+        document.getElementById('repGp').innerText = gp || "-";
+        document.getElementById('repQty').innerText = qty || "-";
+        document.getElementById('repDate').innerText = niceDate;
+    }
+
+    function updateRateNote() {
+        const bRate = document.getElementById('baseRate').value || "0";
+        const tRate = document.getElementById('topRate').value || "0";
+        const note = document.getElementById('rateNote');
+        
+        if (bRate === "0" && tRate === "0") {
+             note.innerText = "Enter Base/Top Rates to see them here.";
+        } else {
+             note.innerText = `Current Rates: Base @ ${bRate}/kg | Top @ ${tRate}/kg`;
+        }
+    }
 </script>
 
 </body>
 </html>
+
