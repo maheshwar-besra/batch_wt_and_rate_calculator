@@ -1,18 +1,11 @@
-const CACHE_NAME = "e4a-class-v1"; // Change v1 to v2 when you update the site
+const CACHE_NAME = "batch-wt-cost-v1"; // Change v1 to v2 when you update the site
 
 // Files to cache immediately
 const ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./E4A_logo.png",
-  // Student Images (Ensure filenames match exactly)
-  "./Students/sk.png",
-  "./Students/ks.png",
-  "./Students/kh.png", // Fixed typo from your previous list (kg -> kh based on array)
-  "./Students/krh.png",
-  "./Students/kk.png",
-  "./Students/nk.png"
+  "./wt_cost_logo.jpg"
 ];
 
 // 1. Install & Cache Local Assets
